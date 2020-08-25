@@ -76,6 +76,9 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function create(string $path, string $editorId, string $creatorId, string $templateId = null): DataResponse {
+		if (!$this->directEditingManager->isEnabled()) {
+			return new DataResponse('Direct editing is not enabled', Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
@@ -93,6 +96,9 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function open(string $path, string $editorId = null): DataResponse {
+		if (!$this->directEditingManager->isEnabled()) {
+			return new DataResponse('Direct editing is not enabled', Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
@@ -112,6 +118,9 @@ class DirectEditingController extends OCSController {
 	 * @NoAdminRequired
 	 */
 	public function templates(string $editorId, string $creatorId): DataResponse {
+		if (!$this->directEditingManager->isEnabled()) {
+			return new DataResponse('Direct editing is not enabled', Http::STATUS_INTERNAL_SERVER_ERROR);
+		}
 		$this->eventDispatcher->dispatchTyped(new RegisterDirectEditorEvent($this->directEditingManager));
 
 		try {
